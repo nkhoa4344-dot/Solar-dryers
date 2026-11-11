@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10251f">
+  <title>SOLAR DRYER | Smart Monitoring</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">☀</div>
+        <div><strong>SOLAR DRYER</strong><span>SMART MONITORING</span></div>
+      </div>
+      <div class="side-label">ĐIỀU HÀNH</div>
+      <nav class="nav">
+        <button class="nav-link active" data-page="overview"><span>▦</span> Tổng quan</button>
+        <button class="nav-link" data-page="monitoring"><span>⌁</span> Giám sát</button>
+        <button class="nav-link" data-page="control"><span>◉</span> Điều khiển</button>
+        <button class="nav-link" data-page="thermal"><span>♨</span> Đá tích nhiệt Bazan</button>
+        <button class="nav-link" data-page="history"><span>▤</span> Lịch sử hoạt động</button>
+        <button class="nav-link" data-page="settings"><span>⚙</span> Cài đặt kết nối</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="connection-mini"><i id="sideDot" class="dot"></i><div><b id="sideConnection">DEMO đang chạy</b><small id="sideMode">Dữ liệu mô phỏng</small></div></div>
+        <div class="side-foot">DỰ ÁN STEM · NĂNG LƯỢNG TÁI TẠO</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="menuBtn" aria-label="Mở menu">☰</button>
+        <div><div class="eyebrow">HỆ THỐNG GIÁM SÁT IOT</div><h1 id="pageTitle">Tổng quan hệ thống</h1></div>
+        <div class="top-actions">
+          <span class="mode-pill" id="modePill"><i class="dot"></i> DEMO MODE</span>
+          <span class="clock" id="clock">--:--:--</span>
+        </div>
+      </header>
+
+      <section class="page active" id="page-overview">
+        <div class="welcome-row">
+          <div><h2>Xin chào! <span class="sun">☀</span></h2><p>Theo dõi hiệu suất tủ sấy năng lượng mặt trời của bạn.</p></div>
+          <div class="status-chip"><i class="dot" id="systemDot"></i><span id="systemStatus">Hệ thống đang hoạt động</span></div>
+        </div>
+        <div class="metrics-grid">
+          <article class="metric-card"><div class="metric-top"><span>NHIỆT ĐỘ TRONG TỦ</span><span class="metric-icon orange">♨</span></div><div class="metric-value"><strong id="tempInside">52.4</strong><small>°C</small></div><div class="metric-foot"><span class="trend up">↗</span> Nhiệt độ sấy</div></article>
+          <article class="metric-card"><div class="metric-top"><span>ĐỘ ẨM TRONG TỦ</span><span class="metric-icon blue">◌</span></div><div class="metric-value"><strong id="humidity">38</strong><small>%RH</small></div><div class="metric-foot">Độ ẩm tương đối</div></article>
+          <article class="metric-card"><div class="metric-top"><span>NHIỆT ĐỘ ĐÁ BAZAN</span><span class="metric-icon amber">▧</span></div><div class="metric-value"><strong id="tempBasalt">48.2</strong><small>°C</small></div><div class="metric-foot">Khối tích trữ nhiệt</div></article>
+          <article class="metric-card"><div class="metric-top"><span>CÔNG SUẤT MÁY THỔI</span><span class="metric-icon green">ϟ</span></div><div class="metric-value"><strong id="fanPower">18.5</strong><small>W</small></div><div class="metric-foot"><span id="fanStatusText">Máy thổi đang chạy</span></div></article>
+        </div>
+
+        <div class="content-grid">
+          <article class="panel chart-panel">
+            <div class="panel-heading"><div><h3>Diễn biến nhiệt độ</h3><p>Theo dõi nhiệt độ theo thời gian</p></div><span class="live-tag"><i class="dot"></i> LIVE</span></div>
+            <div class="legend"><span><i class="legend-dot orange-bg"></i> Trong tủ</span><span><i class="legend-dot blue-bg"></i> Môi trường</span><span><i class="legend-dot amber-bg"></i> Đá Bazan</span></div>
+            <canvas id="overviewChart" height="230" aria-label="Biểu đồ nhiệt độ"></canvas>
+          </article>
+          <article class="panel quick-panel">
+            <div class="panel-heading"><div><h3>Điều khiển nhanh</h3><p>Thao tác hệ thống</p></div><span class="panel-icon">⌘</span></div>
+            <div class="quick-status"><span>Trạng thái máy thổi</span><b id="quickFanStatus">ĐANG CHẠY</b></div>
+            <div class="quick-actions"><button class="btn btn-primary" id="quickStart">▶ Bắt đầu</button><button class="btn btn-soft" id="quickPause">Ⅱ Tạm dừng</button><button class="btn btn-danger-outline" id="quickStop">■ Dừng</button></div>
+            <div class="fan-level"><div><span>Tốc độ máy thổi</span><b id="fanSpeedLabel">45%</b></div><input type="range" id="fanSlider" min="0" max="100" value="45"><small>Điều chỉnh tốc độ trong chế độ MANUAL</small></div>
+            <div class="quick-bottom"><span>Chế độ vận hành</span><div class="segmented"><button id="autoBtn" class="selected">AUTO</button><button id="manualBtn">MANUAL</button></div></div>
+          </article>
+        </div>
+        <div class="bottom-grid">
+          <article class="panel mini-panel"><div class="panel-heading"><div><h3>Thông tin thiết bị</h3><p>Tình trạng kết nối</p></div></div><div class="device-row"><span class="device-icon">⌁</span><div><b>Bo mạch ESP32</b><small id="deviceDetail">Chưa kết nối · đang chạy DEMO</small></div><span class="badge badge-green" id="deviceBadge">DEMO</span></div><div class="device-row"><span class="device-icon">◉</span><div><b>Cảm biến môi trường</b><small>Đang nhận dữ liệu mô phỏng</small></div><span class="badge badge-green">Bình thường</span></div></article>
+          <article class="panel mini-panel"><div class="panel-heading"><div><h3>Cảnh báo hệ thống</h3><p>Thông báo mới nhất</p></div><button class="text-button" data-goto="settings">Cài đặt ngưỡng</button></div><div id="alertList" class="alert-list"><div class="empty-state">✓ Chưa có cảnh báo mới.</div></div></article>
+        </div>
+      </section>
+
+      <section class="page" id="page-monitoring">
+        <div class="section-intro"><h2>Giám sát thông số</h2><p>Dữ liệu cảm biến và thiết bị theo thời gian.</p></div>
+        <div class="metrics-grid compact">
+          <article class="metric-card"><div class="metric-top"><span>NHIỆT ĐỘ MÔI TRƯỜNG</span><span class="metric-icon blue">☼</span></div><div class="metric-value"><strong id="tempOutside">31.0</strong><small>°C</small></div></article>
+          <article class="metric-card"><div class="metric-top"><span>TỐC ĐỘ MÁY THỔI</span><span class="metric-icon green">↗</span></div><div class="metric-value"><strong id="fanSpeedMetric">45</strong><small>%</small></div></article>
+          <article class="metric-card"><div class="metric-top"><span>THỜI GIAN HOẠT ĐỘNG</span><span class="metric-icon amber">◷</span></div><div class="metric-value"><strong id="uptime">00:00</strong></div></article>
+          <article class="metric-card"><div class="metric-top"><span>TRẠNG THÁI DỮ LIỆU</span><span class="metric-icon green">✓</span></div><div class="metric-value"><strong class="small-value" id="dataFreshness">Mới</strong></div></article>
+        </div>
+        <div class="panel chart-panel"><div class="panel-heading"><div><h3>Nhiệt độ theo thời gian</h3><p>Đơn vị: °C</p></div><select id="rangeSelect" class="select"><option value="20">20 điểm gần nhất</option><option value="40">40 điểm gần nhất</option><option value="60">60 điểm gần nhất</option></select></div><div class="legend"><span><i class="legend-dot orange-bg"></i> Trong tủ</span><span><i class="legend-dot blue-bg"></i> Môi trường</span><span><i class="legend-dot amber-bg"></i> Đá Bazan</span></div><canvas id="monitorTempChart" height="260"></canvas></div>
+        <div class="panel chart-panel"><div class="panel-heading"><div><h3>Độ ẩm và công suất</h3><p>Độ ẩm (%RH), công suất (W)</p></div></div><div class="legend"><span><i class="legend-dot blue-bg"></i> Độ ẩm</span><span><i class="legend-dot green-bg"></i> Công suất</span></div><canvas id="monitorOtherChart" height="220"></canvas></div>
+      </section>
+
+      <section class="page" id="page-control">
+        <div class="section-intro"><h2>Điều khiển hệ thống</h2><p>Lệnh điều khiển sẽ được gửi đến ESP32 khi dùng HARDWARE MODE.</p></div>
+        <div class="control-layout">
+          <article class="panel control-main"><div class="panel-heading"><div><h3>Điều khiển vận hành</h3><p id="controlState">Hệ thống đang hoạt động</p></div><span class="badge badge-green" id="controlBadge">RUNNING</span></div><div class="big-control-buttons"><button class="btn btn-primary big" id="startBtn">▶<span>BẮT ĐẦU</span></button><button class="btn btn-soft big" id="pauseBtn">Ⅱ<span>TẠM DỪNG</span></button><button class="btn btn-danger big" id="stopBtn">■<span>DỪNG HỆ THỐNG</span></button></div><div class="divider"></div><h3>Chế độ vận hành</h3><div class="mode-cards"><button id="controlAuto" class="mode-card selected"><b>◉ AUTO</b><small>ESP32 tự vận hành theo chương trình điều khiển.</small></button><button id="controlManual" class="mode-card"><b>⚙ MANUAL</b><small>Người dùng điều chỉnh máy thổi thủ công.</small></button></div><div class="fan-control-large"><div><h3>Máy thổi khí</h3><span id="fanControlStatus" class="badge badge-green">ĐANG CHẠY</span></div><div class="slider-line"><input type="range" id="fanSliderLarge" min="0" max="100" value="45"><strong id="fanSpeedLarge">45%</strong></div><small>Thanh điều chỉnh chỉ hoạt động trong chế độ MANUAL.</small></div></article>
+          <article class="panel safety-panel"><div class="panel-heading"><div><h3>Trạng thái an toàn</h3><p>Thông tin vận hành</p></div><span class="metric-icon green">✓</span></div><div class="safety-item"><span>Wi-Fi</span><b id="wifiSafety">DEMO</b></div><div class="safety-item"><span>Cảm biến</span><b class="good">Bình thường</b></div><div class="safety-item"><span>Máy thổi</span><b id="fanSafety">Đang chạy</b></div><div class="safety-note">Lưu ý: ESP32 cần có chương trình bảo vệ độc lập. Nút STOP trên website không thay thế công tắc ngắt điện hoặc mạch bảo vệ phần cứng.</div></article>
+        </div>
+      </section>
+
+      <section class="page" id="page-thermal">
+        <div class="section-intro"><h2>Giám sát đá tích nhiệt Bazan</h2><p>Theo dõi nhiệt độ khối đá và quá trình tích trữ, giải phóng nhiệt.</p></div>
+        <div class="thermal-hero panel"><div><span class="eyebrow">NHIỆT ĐỘ KHỐI ĐÁ BAZAN</span><div class="thermal-number"><strong id="thermalTemp">48.2</strong> °C</div><p id="thermalPhase">Đang trong quá trình tích nhiệt</p></div><div class="thermal-art">◈<span>THERMAL<br>STORAGE</span></div></div>
+        <div class="metrics-grid compact"><article class="metric-card"><div class="metric-top"><span>NHIỆT ĐỘ HIỆN TẠI</span><span class="metric-icon amber">♨</span></div><div class="metric-value"><strong id="thermalNow">48.2</strong><small>°C</small></div></article><article class="metric-card"><div class="metric-top"><span>NHIỆT ĐỘ TRONG TỦ</span><span class="metric-icon orange">♨</span></div><div class="metric-value"><strong id="thermalInside">52.4</strong><small>°C</small></div></article><article class="metric-card"><div class="metric-top"><span>CHÊNH LỆCH NHIỆT</span><span class="metric-icon blue">Δ</span></div><div class="metric-value"><strong id="thermalDelta">4.2</strong><small>°C</small></div></article></div>
+        <article class="panel chart-panel"><div class="panel-heading"><div><h3>Đường cong nhiệt độ đá Bazan</h3><p>Quan sát khả năng giữ nhiệt theo thời gian.</p></div></div><canvas id="thermalChart" height="250"></canvas></article>
+        <div class="info-note">Thông tin tích nhiệt/nhả nhiệt được suy luận từ xu hướng nhiệt độ cảm biến. Muốn xác định chính xác năng lượng tích trữ cần bổ sung thông số khối lượng đá, nhiệt dung riêng và dữ liệu đo phù hợp.</div>
+      </section>
+
+      <section class="page" id="page-history">
+        <div class="section-intro"><h2>Lịch sử hoạt động</h2><p>Các sự kiện và dữ liệu được ghi nhận trong phiên hiện tại.</p></div>
+        <div class="history-toolbar"><span id="historyCount">0 sự kiện</span><button class="btn btn-soft" id="exportBtn">↓ Xuất CSV</button></div>
+        <div class="panel table-panel"><table><thead><tr><th>Thời gian</th><th>Sự kiện</th><th>Chi tiết</th><th>Chế độ</th></tr></thead><tbody id="historyBody"><tr><td colspan="4" class="empty-state">Chưa có dữ liệu lịch sử.</td></tr></tbody></table></div>
+      </section>
+
+      <section class="page" id="page-settings">
+        <div class="section-intro"><h2>Cài đặt hệ thống</h2><p>Cấu hình phương thức kết nối và ngưỡng cảnh báo.</p></div>
+        <div class="settings-grid">
+          <article class="panel settings-card"><div class="panel-heading"><div><h3>Kết nối ESP32 qua HTTP</h3><p>Nhập địa chỉ máy chủ REST API của bo mạch.</p></div><span class="metric-icon blue">⌁</span></div><label>Địa chỉ API cơ sở</label><input id="apiUrl" class="field" type="url" placeholder="http://192.168.1.50"><label>Chu kỳ lấy dữ liệu (ms)</label><input id="pollInterval" class="field" type="number" min="1000" max="30000" value="2000"><div class="settings-actions"><button class="btn btn-primary" id="connectBtn">Kết nối phần cứng</button><button class="btn btn-soft" id="demoBtn">Chuyển sang DEMO</button></div><div id="connectionMessage" class="help-text">Đang sử dụng dữ liệu mô phỏng.</div><div class="api-hint"><b>API dự kiến</b><code>GET /api/status</code><code>POST /api/command</code><code>POST /api/fan</code></div></article>
+          <article class="panel settings-card"><div class="panel-heading"><div><h3>Ngưỡng cảnh báo</h3><p>Thiết lập giới hạn theo dõi.</p></div><span class="metric-icon amber">⚑</span></div><label>Nhiệt độ tối đa trong tủ (°C)</label><input id="maxTemp" class="field" type="number" value="70" min="30" max="120"><label>Độ ẩm cảnh báo (%RH)</label><input id="maxHumidity" class="field" type="number" value="80" min="10" max="100"><label>Nhiệt độ tối đa đá Bazan (°C)</label><input id="maxBasalt" class="field" type="number" value="90" min="30" max="150"><button class="btn btn-primary" id="saveThresholds">Lưu ngưỡng cảnh báo</button><div class="help-text" id="thresholdMessage">Ngưỡng mặc định đang được áp dụng.</div></article>
+        </div>
+        <div class="info-note"><b>Lưu ý triển khai:</b> Trình duyệt và ESP32 phải truy cập được cùng mạng. Firmware ESP32 cần bật CORS cho địa chỉ website và triển khai đúng các endpoint nêu trong tài liệu README. Không đưa mật khẩu Wi-Fi hoặc thông tin bí mật vào mã JavaScript công khai.</div>
+      </section>
+      <footer class="footer">SOLAR DRYER · SMART MONITORING SYSTEM <span>Powered by Solar Energy & IoT</span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>
